@@ -9,8 +9,10 @@ var os = require('os');
 var hostname = os.hostname();
 
 var client = new Client({
-  url: 'http://localhost:8086',
-  db: 'mydb'
+  url: 'http://10.10.71.37:50402',
+  db: 'mydb',
+  u: process.env.USERNAME,
+  p: process.env.PASSWORD
 });
 
 var app = express();
