@@ -8,11 +8,13 @@ var Client = require('./lib/fluxdb.js').Client;
 var os = require('os');
 var hostname = os.hostname();
 
+var url = 'http://' + process.env.INFLUXDB_PORT_8086_TCP_ADDR + ':' + process.env.INFLUXDB_PORT_8086_TCP_PORT;
+
 var client = new Client({
-  url: 'http://10.10.71.37:50402',
+  url: url,
   db: 'mydb',
-  u: process.env.USERNAME,
-  p: process.env.PASSWORD
+  u: process.env.INFLUXDB_USERNAME,
+  p: process.env.INFLUXDB_PASSWORD
 });
 
 var app = express();
@@ -20,18 +22,32 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/query', function (req, res) {
   client.query(req.query.q, function (err, result) {
-    res.json(result);
+    res.header('Content-Type', 'application/json; charset=utf-8');
+    res.end(result);
   });
 });
 
 function collect() {
   var result = process.memoryUsage();
+  var loadavg = os.loadavg();
+  var totalmem = os.totalmem();
+  var freemem = os.freemem();
+  result.freemem = freemem;
+  result.totalmem = totalmem;
+
   client.write('memoryUsage', result, {
     host: hostname,
     pid: process.pid
+  });
+
+  client.write('loadavg', result, {
+    host: hostname,
+    load1: loadavg[0],
+    load5: loadavg[1],
+    load15: loadavg[2]
   });
 }
 
 setInterval(collect, 1000);
 
-app.listen(8080)
+app.listen(8888)

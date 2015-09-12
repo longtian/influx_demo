@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>InfluxDB Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/pure-min.css"/>
     <link rel="stylesheet" href="css/c3.css"/>
     <link rel="stylesheet" href="css/style.css"/>
@@ -10,7 +11,9 @@
 <body>
 <form class="pure-form">
     <textarea class="pure-input-1" id="q"></textarea>
-    <button class="pure-button pure-button-primary" id="queryBtn">query</button>
+    <button class="pure-button pure-button-primary" id="queryBtn">查询</button>
+    <button data-query="select mean(load1) from memoryUsage where time> now() - 60m group by time(1m)">系统负载</button>
+    <button data-query="select mean(heapUsed) from memoryUsage where time> now() - 60m group by time(1m)">Heap</button>
 </form>
 <div id="error"></div>
 <div id='chart'></div>
