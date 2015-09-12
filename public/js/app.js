@@ -29,29 +29,11 @@ $("#queryBtn").click(function () {
 
 loadData();
 
-var chart = c3.generate({
-  data: {
-    rows: [],
-    x: 'time',
-    xFormat: '%Y-%m-%dT%H:%M:%S.%LZ'
-  },
-  axis: {
-    x: {
-      type: 'timeseries',
-      tick: {
-        format: '%H:%M',
-        count: Math.round($(window).width()/100)
-      }
-    }
-  }
-});
 
 function loadData() {
   var q = $q.val()
 
   $.get('query', {q: q}, function (result) {
-
-    chart.unload();
 
     if (result.error) {
       $('#error').show().text(result.error);
@@ -80,12 +62,25 @@ function loadData() {
       values[i][0] = new Date(values[i][0]);
     }
 
-    chart.load({
-      rows: [columns].concat(values),
+    c3.generate({
+      data: {
+        rows: [],
+        x: 'time',
+        xFormat: '%Y-%m-%dT%H:%M:%S.%LZ',
+        rows: [columns].concat(values),
+      },
+      axis: {
+        x: {
+          type: 'timeseries',
+          tick: {
+            format: '%H:%M',
+            count: Math.round($(window).width()/100)
+          }
+        }
+      }
     });
 
-
-  })
+  });
 
 }
 
