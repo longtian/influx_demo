@@ -40,11 +40,12 @@ function collect() {
     pid: process.pid
   });
 
-  client.write('loadavg', result, {
-    host: hostname,
+  client.write('loadavg', {
     load1: loadavg[0],
     load5: loadavg[1],
     load15: loadavg[2]
+  }, {
+    host: hostname,
   });
 }
 

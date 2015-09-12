@@ -10,6 +10,13 @@ $q.keydown(function (e) {
     loadData();
   }
 })
+
+$('[data-query]').click(function(){
+  $q.val($(this).data('query'));
+  loadData();
+  return false;
+});
+
 $("#queryBtn").click(function () {
   loadData();
   return false;
