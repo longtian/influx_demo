@@ -1,0 +1,11 @@
+textarea {
+}
+
+#error{
+    background: darkred;
+    color: white;
+}
+
+body{
+    padding: 10px;
+}
