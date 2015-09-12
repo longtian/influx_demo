@@ -12,8 +12,8 @@
 <form class="pure-form">
     <textarea class="pure-input-1" id="q"></textarea>
     <button class="pure-button pure-button-primary" id="queryBtn">查询</button>
-    <button class="pure-button" data-query="select mean(load1) as load_1min,mean(load5) as load_5min,mean(load15) as load_15min from loadavg where time> now() - 60m group by time(1m)">一小时系统负载</button>
-    <button class="pure-button" data-query="select mean(heapUsed) as heapUsed,mean(heapTotal) as heapTotal from memoryUsage where time> now() - 60m group by time(1m)">v8堆内存</button>
+    <button class="pure-button" data-query="select mean(load1) as load_1min,mean(load5) as load_5min,mean(load15) as load_15min from loadavg where time> now() - 60m group by time(1m)">系统负载</button>
+    <button class="pure-button" data-query="select mean(heapUsed) as heapUsed,mean(heapTotal) as heapTotal from memoryUsage where time> now() - 60m group by time(1m)">内存</button>
 </form>
 <div id="error"></div>
 <div id='chart'></div>
