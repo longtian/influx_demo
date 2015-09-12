@@ -51,6 +51,8 @@ function loadData() {
 
   $.get('query', {q: q}, function (result) {
 
+    chart.unload();
+
     if (result.error) {
       $('#error').show().text(result.error);
       return
