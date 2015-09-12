@@ -2,14 +2,19 @@
  * Created by yan on 15-9-12.
  */
 var $q = $('#q');
-var defaultQ = 'select * from memoryUsage where time> now() - 1m';
+
+var defaultQ = 'select max(heapTotal),min(healTotal),mean(heapTotal) ' +
+  'from memoryUsage where time> now() - 1h group by time(1m)';
+
 var localStorageQ = localStorage.getItem('q');
 $q.val(localStorageQ ? localStorageQ : defaultQ);
+
 $q.keydown(function (e) {
+  // ctrl+enter is pressed
   if (e.keyCode == 13 && e.ctrlKey) {
     loadData();
   }
-})
+});
 
 $('[data-query]').click(function(){
   $q.val($(this).data('query'));
@@ -34,7 +39,8 @@ var chart = c3.generate({
     x: {
       type: 'timeseries',
       tick: {
-        format: '%H:%M:%S'
+        format: '%H:%M',
+        count: Math.round($(window).width()/100)
       }
     }
   }
